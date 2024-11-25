@@ -74,6 +74,11 @@ public class Izin extends AppCompatActivity implements View.OnClickListener {
     public static String LINK, idlist, tanggallist, jamlist, kecamatanlist, absenlist, keteranganlist, statuslist, pendinglist;
     ArrayList<HashMap<String, String>> aruskas = new ArrayList<HashMap<String, String>>();
 
+
+
+//    <!--Sama seperti Absensi namun ini adalah data izin yang otomatis akan di simpan pada database izin untuk siswa-->
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -323,9 +328,7 @@ public class Izin extends AppCompatActivity implements View.OnClickListener {
                     id_siswa.setText(object.getString("id_siswa"));
                     nama_siswa.setText(object.getString("nama_siswa"));
 
-//                    imgdatakunjungan.setVisibility(View.GONE);
-//                    datakunjungan.setVisibility(View.VISIBLE);
-                    //kunjunganterakhir();
+
 
                 }catch (JSONException e){
                     e.printStackTrace();
@@ -351,8 +354,7 @@ public class Izin extends AppCompatActivity implements View.OnClickListener {
 
 
     private void save() {
-        //pDialog.setMessage("Login Process...");
-        //showDialog();
+
         AndroidNetworking.post(Config.host + "inputabsen.php")
                 .addBodyParameter("nis",  nis.getText().toString())
                 .addBodyParameter("nama", nama.getText().toString())
@@ -383,19 +385,11 @@ public class Izin extends AppCompatActivity implements View.OnClickListener {
                                     Toast.LENGTH_LONG).show();
 
 
-
-
-//                            ok1.setVisibility(View.VISIBLE);
-//                            tabsendatang1.setTextColor(getResources().getColor(R.color.hijau));
-//                            tabsendatang1.setText("TELAH ABSEN");
-
                         } else {
                             //hideDialog();
                             Toast.makeText(getApplicationContext(), "HARI INI KAMU SUDAH ABSEN",
                                     Toast.LENGTH_LONG).show();
-//                            ga1.setVisibility(View.VISIBLE);
-//                            tabsendatang1.setTextColor(getResources().getColor(R.color.merah));
-//                            tabsendatang1.setText("GAGAL ABSEN");
+
                         }
                     }
 
@@ -436,17 +430,7 @@ public class Izin extends AppCompatActivity implements View.OnClickListener {
                         try {
                             JSONArray jsonArray = response.optJSONArray("result");
 
-//                            String nama = namasales.getText().toString();
-//                            if (!hasTodayAbsen(jsonArray) && isAfter4_30PM()) {
-//                                showNotification("Hallo " +nama, "Anda belum melakukan absen hari ini di Jarvis. Silakan lakukan absen.");
-//                            }
 
-                            // Mengirim data absen ke layanan
-//                            if (jsonArray != null) {
-//                                Intent intent = new Intent(Absen_fix.this, AbsenNotificationService.class);
-//                                intent.putExtra("absenData", jsonArray.toString());
-//                                startService(intent);
-//                            }
 
                             // Proses data absen jika ada
                             if (jsonArray != null) {
@@ -499,27 +483,13 @@ public class Izin extends AppCompatActivity implements View.OnClickListener {
         listtest1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                //no    = ((TextView) view.findViewById(R.id.no)).getText().toString();
-//                idlist = ((TextView) view.findViewById(R.id.idlistabsen)).getText().toString();
-//                statuslist = ((TextView) view.findViewById(R.id.statuslistabsen)).getText().toString();
-//
-//                idabsen.setText(idlist);
-//                //tes1.setText(tanggallist);
-//
-//
-//
-//                String a = idabsen.getText().toString();
-//                //String b = namasaleslist1.getText().toString();
-//                //String c = namasalesinputperdana1.getText().toString();
-//                Intent i = new Intent(getApplicationContext(), Detail_Absen.class);
-//                i.putExtra("id",""+a+"");
-//                startActivity(i);
+
 
             }
         });
 
 
-        // Rest of your code...
+
     }
 
     private class CustomAdapter extends SimpleAdapter {
@@ -536,27 +506,6 @@ public class Izin extends AppCompatActivity implements View.OnClickListener {
             String absenListAbsen = aruskas.get(position).get("absen");
             String jamListAbsen = aruskas.get(position).get("jam");
 
-            // Check conditions and set text color accordingly
-//            TextView absenListAbsenTextView = view.findViewById(R.id.absenlistabsen);
-//            TextView jamListAbsenTextView = view.findViewById(R.id.jamlistabsen);
-//            if (absenListAbsen.equals("DATANG")) {
-//                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-//                try {
-//                    Date jamAbsen = sdf.parse(jamListAbsen);
-//                    Date thresholdTime = sdf.parse("08:00:00");
-//
-//                    if (jamAbsen.after(thresholdTime)) {
-//                        jamListAbsenTextView.setTextColor(Color.RED);
-//                    } else {
-//                        jamListAbsenTextView.setTextColor(Color.BLACK);
-//                    }
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//            } else {
-//                // Set default text color for other values of absenListAbsen
-//                jamListAbsenTextView.setTextColor(Color.BLACK);
-//            }
 
             return view;
         }

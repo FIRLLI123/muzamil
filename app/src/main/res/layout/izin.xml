@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
 
-
+<!--Sama seperti Absensi namun ini adalah data izin yang otomatis akan di simpan pada database izin untuk siswa-->
 
 
     <LinearLayout

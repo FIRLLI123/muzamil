@@ -4,17 +4,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <!-- Tambahkan logo di sini -->
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:background="@color/white">
-
-
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,11 +19,10 @@
             android:gravity="bottom|center">
 
 
-
-
         </LinearLayout>
 
 
+<!--        ini untuk header logo-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="280dp"
@@ -93,6 +86,8 @@
         </LinearLayout>
 
 
+<!--        ini widget CardView yang di dalam nya ada
+form ID dan Password untuk user login-->
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="160dp"
@@ -189,6 +184,8 @@
 
 
 
+
+<!--        ini untuk Button login dengan gravity align center-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -241,6 +238,9 @@
 
         </LinearLayout>
 
+
+<!--        dan ini adalah footer yang berupa gambar-->
+
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -261,9 +261,6 @@
 
 
     </LinearLayout>
-
-
-
 
 
     <!-- Tambahkan elemen lain seperti form login di sini -->

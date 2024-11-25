@@ -5,7 +5,10 @@
     android:orientation="vertical">
 
 
-
+<!--Tampilan ini untuk di jadikan sebagai data view yang di ambil oleh
+CustomAdapter customAdapter = new CustomAdapter(this, aruskas, R.layout.list_absen_fix,
+                new String[]{"id","nis", "nama", "profesi", "jam", "tanggal", "kelas", "id_siswa", "nama_siswa", "keterangan"},
+                new int[]{R.id.id_list, R.id.nis_list, R.id.nama_list, R.id.profesi_list, R.id.jam_list, R.id.tanggal_list, R.id.kelas_list, R.id.id_siswa_list, R.id.nama_siswa_list, R.id.keterangan_list});-->
 
 
     <TextView

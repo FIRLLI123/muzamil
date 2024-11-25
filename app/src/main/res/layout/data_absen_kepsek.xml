@@ -4,20 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Awal"
+    tools:context=".Tes_coding"
     android:background="@color/merah"
     android:orientation="vertical">
 
-
-
-
-
-
-
-
-
-
-
+<!--    Sama Seperti Data_absen cuma beda mengambil data Kepsek-->
 
 
     <LinearLayout

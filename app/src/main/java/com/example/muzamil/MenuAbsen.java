@@ -93,7 +93,6 @@ LinearLayout kehadiran, izin, data_absen, logout;
     private AlertDialog alert;
 
     ListView listtest1;
-    public static String LINK, idlist, tanggallist, jamlist, kecamatanlist, absenlist, keteranganlist, statuslist, pendinglist;
     ArrayList<HashMap<String, String>> aruskas = new ArrayList<HashMap<String, String>>();
 
 
@@ -103,6 +102,8 @@ LinearLayout kehadiran, izin, data_absen, logout;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_absen);
+
+        //pembuatan variable tiap widget
 
         this.mHandler = new Handler();
         m_Runnable.run();
@@ -130,6 +131,7 @@ LinearLayout kehadiran, izin, data_absen, logout;
         selengkapnya = (TextView) findViewById(R.id.selengkapnya);
 
 
+
         kehadiran = (LinearLayout) findViewById(R.id.kehadiran);
         izin = (LinearLayout) findViewById(R.id.izin);
         data_absen = (LinearLayout) findViewById(R.id.data_absen);
@@ -142,23 +144,24 @@ LinearLayout kehadiran, izin, data_absen, logout;
 
         tanggal.setText(getCurrentDate());
 
+//----------------------------------------------------------
+
+
 
 
         kehadiran.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View arg0) {
-
+                // Cek apakah profesi adalah GURU
                 if (profesi.getText().toString().equals("GURU")) {
                     String a = nis.getText().toString();
                     String b = nama.getText().toString();
                     String c = profesi.getText().toString();
 
+                    // Berpindah ke Data_kelas
                     Intent i = new Intent(getApplicationContext(), Data_kelas.class);
-                    //Intent i = new Intent(getApplicationContext(), Menuutamanew.class);
-                    i.putExtra("nis",""+a+"");
-                    i.putExtra("nama",""+b+"");
-                    i.putExtra("profesi",""+c+"");
-
+                    i.putExtra("nis", "" + a + "");
+                    i.putExtra("nama", "" + b + "");
+                    i.putExtra("profesi", "" + c + "");
 
                     startActivity(i);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -167,29 +170,24 @@ LinearLayout kehadiran, izin, data_absen, logout;
                     String b = nama.getText().toString();
                     String c = profesi.getText().toString();
 
+                    // Berpindah ke Data_kelas
                     Intent i = new Intent(getApplicationContext(), Data_kelas.class);
-                    //Intent i = new Intent(getApplicationContext(), Menuutamanew.class);
-                    i.putExtra("nis",""+a+"");
-                    i.putExtra("nama",""+b+"");
-                    i.putExtra("profesi",""+c+"");
-                }else if (profesi.getText().toString().equals("null")) {
+                    i.putExtra("nis", "" + a + "");
+                    i.putExtra("nama", "" + b + "");
+                    i.putExtra("profesi", "" + c + "");
+                } else if (profesi.getText().toString().equals("null")) {
+                    // Tampilkan pesan jika koneksi lemah
                     Toast.makeText(getApplicationContext(), "KONEKSI LEMAH TUNGGU SEBENTAR", Toast.LENGTH_LONG).show();
-                }else{
-
+                } else {
+                    // Tampilkan pesan jika akses tidak valid
                     Toast.makeText(getApplicationContext(), "TIDAK MEMILIKI AKSES", Toast.LENGTH_LONG).show();
-
                 }
-
-
-
             }
-
         });
 
         izin.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View arg0) {
-
+                // Cek apakah profesi adalah ortu
                 if (profesi.getText().toString().equals("ortu")) {
                     String a = nis.getText().toString();
                     String b = nama.getText().toString();
@@ -197,15 +195,13 @@ LinearLayout kehadiran, izin, data_absen, logout;
                     String d = nama_siswa.getText().toString();
                     String e = id_siswa.getText().toString();
 
+                    // Berpindah ke Data_kelas_ortu
                     Intent i = new Intent(getApplicationContext(), Data_kelas_ortu.class);
-                    //Intent i = new Intent(getApplicationContext(), Menuutamanew.class);
-                    i.putExtra("nis",""+a+"");
-                    i.putExtra("nama",""+b+"");
-                    i.putExtra("profesi",""+c+"");
-                    i.putExtra("nama_siswa",""+d+"");
-                    i.putExtra("id_siswa",""+e+"");
-
-
+                    i.putExtra("nis", "" + a + "");
+                    i.putExtra("nama", "" + b + "");
+                    i.putExtra("profesi", "" + c + "");
+                    i.putExtra("nama_siswa", "" + d + "");
+                    i.putExtra("id_siswa", "" + e + "");
 
                     startActivity(i);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -216,33 +212,24 @@ LinearLayout kehadiran, izin, data_absen, logout;
                     String d = nama_siswa.getText().toString();
                     String e = id_siswa.getText().toString();
 
+                    // Berpindah ke Data_kelas_ortu
                     Intent i = new Intent(getApplicationContext(), Data_kelas_ortu.class);
-                    //Intent i = new Intent(getApplicationContext(), Menuutamanew.class);
-                    i.putExtra("nis",""+a+"");
-                    i.putExtra("nama",""+b+"");
-                    i.putExtra("profesi",""+c+"");
-                    i.putExtra("nama_siswa",""+d+"");
-                    i.putExtra("id_siswa",""+e+"");
-
-
-                }else if (profesi.getText().toString().equals("null")) {
+                    i.putExtra("nis", "" + a + "");
+                    i.putExtra("nama", "" + b + "");
+                    i.putExtra("profesi", "" + c + "");
+                    i.putExtra("nama_siswa", "" + d + "");
+                    i.putExtra("id_siswa", "" + e + "");
+                } else if (profesi.getText().toString().equals("null")) {
+                    // Tampilkan pesan jika koneksi lemah
                     Toast.makeText(getApplicationContext(), "KONEKSI LEMAH TUNGGU SEBENTAR", Toast.LENGTH_LONG).show();
-                }else{
-
+                } else {
+                    // Tampilkan pesan jika akses tidak valid
                     Toast.makeText(getApplicationContext(), "TIDAK MEMILIKI AKSES", Toast.LENGTH_LONG).show();
-
                 }
-
-
-
             }
-
         });
 
-
-
         data_absen.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View arg0) {
                 String profesiValue = profesi.getText().toString();
                 Log.d("Profesi Value", profesiValue); // Log untuk mengecek nilai profesi
@@ -251,6 +238,7 @@ LinearLayout kehadiran, izin, data_absen, logout;
                     String a = id_siswa.getText().toString();
                     String b = nama_siswa.getText().toString();
 
+                    // Berpindah ke Data_absen
                     Intent i = new Intent(getApplicationContext(), Data_absen.class);
                     i.putExtra("id_siswa", a);
                     i.putExtra("nama_siswa", b);
@@ -264,6 +252,7 @@ LinearLayout kehadiran, izin, data_absen, logout;
                     String a = nis.getText().toString();
                     String b = nama.getText().toString();
 
+                    // Berpindah ke Data_absen_kepsek
                     Intent i = new Intent(getApplicationContext(), Data_absen_kepsek.class);
                     i.putExtra("nis", a);
                     i.putExtra("nama", b);
@@ -273,29 +262,25 @@ LinearLayout kehadiran, izin, data_absen, logout;
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
                 } else if (profesiValue.equals("null")) {
+                    // Tampilkan pesan jika koneksi lemah
                     Toast.makeText(getApplicationContext(), "KONEKSI LEMAH TUNGGU SEBENTAR", Toast.LENGTH_LONG).show();
                 } else {
+                    // Tampilkan pesan jika akses tidak valid
                     Toast.makeText(getApplicationContext(), "TIDAK MEMILIKI AKSES", Toast.LENGTH_LONG).show();
                 }
             }
         });
 
-
-
         selengkapnya.setOnClickListener(new View.OnClickListener() {
-
             public void onClick(View arg0) {
-
                 if (profesi.getText().toString().equals("ortu")) {
                     String a = id_siswa.getText().toString();
                     String b = nama_siswa.getText().toString();
-                    String c = profesi.getText().toString();
 
+                    // Berpindah ke Data_absen
                     Intent i = new Intent(getApplicationContext(), Data_absen.class);
-                    //Intent i = new Intent(getApplicationContext(), Menuutamanew.class);
-                    i.putExtra("id_siswa",""+a+"");
-                    i.putExtra("nama_siswa",""+b+"");
-
+                    i.putExtra("id_siswa", "" + a + "");
+                    i.putExtra("nama_siswa", "" + b + "");
 
                     startActivity(i);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
@@ -304,38 +289,33 @@ LinearLayout kehadiran, izin, data_absen, logout;
                     String b = nama.getText().toString();
                     String c = profesi.getText().toString();
 
+                    // Berpindah ke Data_absen
                     Intent i = new Intent(getApplicationContext(), Data_absen.class);
-                    //Intent i = new Intent(getApplicationContext(), Menuutamanew.class);
-                    i.putExtra("nis",""+a+"");
-                    i.putExtra("nama",""+b+"");
-                    i.putExtra("profesi",""+c+"");
-                }else if (profesi.getText().toString().equals("null")) {
+                    i.putExtra("nis", "" + a + "");
+                    i.putExtra("nama", "" + b + "");
+                    i.putExtra("profesi", "" + c + "");
+                } else if (profesi.getText().toString().equals("null")) {
+                    // Tampilkan pesan jika koneksi lemah
                     Toast.makeText(getApplicationContext(), "KONEKSI LEMAH TUNGGU SEBENTAR", Toast.LENGTH_LONG).show();
-                }else{
-
+                } else {
+                    // Tampilkan pesan jika akses tidak valid
                     Toast.makeText(getApplicationContext(), "TIDAK MEMILIKI AKSES", Toast.LENGTH_LONG).show();
-
                 }
-
-
-
             }
-
         });
-
-
 
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Menampilkan dialog konfirmasi
+                // Menampilkan dialog konfirmasi logout
                 AlertDialog.Builder builder = new AlertDialog.Builder(MenuAbsen.this);
                 builder.setMessage("Apakah Anda ingin logout?")
                         .setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                resetSharedPreferences();
-                                // Kembali ke activity Login_V3
+                                resetSharedPreferences(); // Reset data login
+
+                                // Kembali ke MainActivity
                                 Intent intent = new Intent(MenuAbsen.this, MainActivity.class);
                                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
@@ -352,14 +332,18 @@ LinearLayout kehadiran, izin, data_absen, logout;
             }
         });
 
-        user();
-        absenhadir();
-        list();
+// Fungsi tambahan
+        user(); // Memuat data pengguna
+        absenhadir(); // Memuat data kehadiran
+        list(); // Memuat data lainnya
+
 
 
 
     }
 
+
+    //simpan data user
     private void resetSharedPreferences() {
         SharedPreferences sharedPreferences = getSharedPreferences("userData", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -429,26 +413,18 @@ LinearLayout kehadiran, izin, data_absen, logout;
 
 
 
+
+//method kehadiran
     private void absenhadir() {
 
         AndroidNetworking.post(Config.host + "count_absenhadir.php")
                 .addBodyParameter("id_siswa", id_siswa.getText().toString())
-//                .addBodyParameter("tanggaldari", tanggaldari.getText().toString())
-//                .addBodyParameter("tanggalsampai", tanggalsampai.getText().toString())
-//                .addBodyParameter("namasales", namasalesinputperdana1.getText().toString())
-//                .addBodyParameter("tanggal", tanggalinputperdana1.getText().toString())
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // do anything with response
 
-
-
-                        NumberFormat rupiahFormat = NumberFormat.getInstance(Locale.GERMANY);
-
-                        //itempenjualanperdana1.setText((response.optString("item")));
                         masuk.setText((response.optString("id")));
 
                         if ( masuk.getText().toString().equals("null")){
@@ -472,26 +448,19 @@ LinearLayout kehadiran, izin, data_absen, logout;
                 });
 
     }
+
+    //method Telat
     private void absentelat() {
 
         AndroidNetworking.post(Config.host + "count_absentelat.php")
                 .addBodyParameter("id_siswa", id_siswa.getText().toString())
-//                .addBodyParameter("tanggaldari", tanggaldari.getText().toString())
-//                .addBodyParameter("tanggalsampai", tanggalsampai.getText().toString())
-//                .addBodyParameter("namasales", namasalesinputperdana1.getText().toString())
-//                .addBodyParameter("tanggal", tanggalinputperdana1.getText().toString())
+
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // do anything with response
 
-
-
-                        NumberFormat rupiahFormat = NumberFormat.getInstance(Locale.GERMANY);
-
-                        //itempenjualanperdana1.setText((response.optString("item")));
                         telat.setText((response.optString("id")));
 
                         if ( telat.getText().toString().equals("null")){
@@ -515,26 +484,20 @@ LinearLayout kehadiran, izin, data_absen, logout;
                 });
 
     }
+
+
+    //method Izin
     private void absenizin() {
 
         AndroidNetworking.post(Config.host + "count_absenizin.php")
                 .addBodyParameter("id_siswa", id_siswa.getText().toString())
-//                .addBodyParameter("tanggaldari", tanggaldari.getText().toString())
-//                .addBodyParameter("tanggalsampai", tanggalsampai.getText().toString())
-//                .addBodyParameter("namasales", namasalesinputperdana1.getText().toString())
-//                .addBodyParameter("tanggal", tanggalinputperdana1.getText().toString())
+
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // do anything with response
 
-
-
-                        NumberFormat rupiahFormat = NumberFormat.getInstance(Locale.GERMANY);
-
-                        //itempenjualanperdana1.setText((response.optString("item")));
                         izinn.setText((response.optString("id")));
 
                         if ( izinn.getText().toString().equals("null")){
@@ -558,26 +521,21 @@ LinearLayout kehadiran, izin, data_absen, logout;
                 });
 
     }
+
+
+
+    //method Tidak Hadir
     private void absentidakmasuk() {
 
         AndroidNetworking.post(Config.host + "count_absentidakmasuk.php")
                 .addBodyParameter("id_siswa", id_siswa.getText().toString())
-//                .addBodyParameter("tanggaldari", tanggaldari.getText().toString())
-//                .addBodyParameter("tanggalsampai", tanggalsampai.getText().toString())
-//                .addBodyParameter("namasales", namasalesinputperdana1.getText().toString())
-//                .addBodyParameter("tanggal", tanggalinputperdana1.getText().toString())
+
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // do anything with response
 
-
-
-                        NumberFormat rupiahFormat = NumberFormat.getInstance(Locale.GERMANY);
-
-                        //itempenjualanperdana1.setText((response.optString("item")));
                         tidakmasuk.setText((response.optString("id")));
 
                         if ( tidakmasuk.getText().toString().equals("null")){
@@ -603,28 +561,18 @@ LinearLayout kehadiran, izin, data_absen, logout;
     }
 
 
-
+    //method user
     private void user() {
-//        pDialog.setMessage("Verifikasi...");
-//        showDialog();
-//        pDialog.setCanceledOnTouchOutside(false);
+
         AndroidNetworking.post(Config.host + "user_depan.php")
                 .addBodyParameter("nis", nis.getText().toString())
-                //.addBodyParameter("dana", dana.getText().toString())
 
-                //.addBodyParameter("bulan", bulan1.getText().toString())
-                //.addBodyParameter("bulan1", bulan1.getText().toString())
-                //.addBodyParameter("bulan2", bulan2.getText().toString())
                 .setPriority(Priority.MEDIUM)
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // do anything with response
 
-                        NumberFormat rupiahFormat = NumberFormat.getInstance(Locale.GERMANY);
-                        //idoutlet1.setText((response.optString("idoutlet")));
-                        //username.setText((response.optString("username")));
                         nama.setText((response.optString("nama")));
                         profesi.setText((response.optString("profesi")));
                         id_siswa.setText((response.optString("id_siswa")));
@@ -653,6 +601,8 @@ LinearLayout kehadiran, izin, data_absen, logout;
         return dateFormat.format(c.getTime());
     }
 
+
+    //data list absen orang tyua
     private void list() {
         // Bersihkan data sebelum mengisi kembali
         aruskas.clear();
@@ -742,6 +692,8 @@ LinearLayout kehadiran, izin, data_absen, logout;
         }
     }
 
+
+    //notifikasi yang di atur oleh notificationManager
     private void showNotification(String title, String message) {
         Intent intent = new Intent(this, MenuAbsen.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);

@@ -119,7 +119,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
+<!--jam aktual, tanggal dan kelas parsing dari menu absen user-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -174,6 +174,9 @@
 
     </LinearLayout>
 
+
+
+
     <LinearLayout
         android:layout_marginTop="0dp"
         android:layout_width="match_parent"
@@ -188,7 +191,7 @@
 
 
 
-
+<!--Data jam yang di ambil dari database berdasarkan kelas dan guru-->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -287,7 +290,7 @@
             />
 
 
-
+<!--Button pengambilan nilai dan barcode pada kode yang sudah di buat oleh pihak admin-->
 
         <LinearLayout
             android:id="@+id/buttonScan"
@@ -350,6 +353,8 @@
 
         </LinearLayout>
 
+
+<!--        Button Absen dengan cara motion geser-->
 
         <LinearLayout
             android:id="@+id/mainLayout"
@@ -620,6 +625,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="10dp"/>
 
+
+<!--        List View Data absen guru pada kelas yang di pilih-->
         <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="match_parent"

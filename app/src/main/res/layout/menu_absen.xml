@@ -11,7 +11,7 @@
 
 
 
-
+<!--Header pada dashboard-->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,6 +37,7 @@
                 android:gravity="top"
                 >
 
+<!--                icon foto-->
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/imgbarang"
                     android:layout_width="80dp"
@@ -61,7 +62,7 @@
                     android:visibility="gone"
                     />
 
-
+<!--data parsing yang di terima dari login user-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -284,6 +285,8 @@
         android:layout_marginTop="0dp"
         android:background="@drawable/dasboardtop">
 
+
+<!--        Class menu, kehadiran, izin, data, logout-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -598,7 +601,7 @@
                 android:layout_height="410dp"
                 android:layout_gravity="bottom">
 
-
+<!--dashboard dan hitungan summary per user-->
 
                 <LinearLayout
                     android:layout_width="match_parent"

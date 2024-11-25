@@ -68,9 +68,11 @@ public class Data_kelas extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.data_kelas);
 
+        // Inisialisasi context dan ProgressDialog
         context = Data_kelas.this;
         pDialog = new ProgressDialog(context);
 
+        // Inisialisasi variabel yang digunakan untuk menyimpan data
         idlist = "";
         nislist = "";
         namagurulist = "";
@@ -80,9 +82,10 @@ public class Data_kelas extends AppCompatActivity {
         jam_berakhirlist = "";
         tanggallist = "";
 
-
+        // Inisialisasi tampilan layout
         blank_gambar = (LinearLayout) findViewById(R.id.blank_gambar);
 
+        // Inisialisasi TextView untuk menampilkan data terkait kelas
         idkelas = (TextView) findViewById(R.id.idkelas);
         nis = (TextView) findViewById(R.id.nis);
         nama = (TextView) findViewById(R.id.nama);
@@ -94,20 +97,21 @@ public class Data_kelas extends AppCompatActivity {
         tanggal = (TextView) findViewById(R.id.tanggal);
         jam = (TextView) findViewById(R.id.jam);
 
-
+        // Inisialisasi ListView untuk menampilkan data outlet
         listdataoutlet1 = (ListView) findViewById(R.id.listdataoutlet);
 
+        // Inisialisasi LinearLayout untuk tombol pencarian data barang
         caridatabarang = (LinearLayout) findViewById(R.id.caridatabarang);
 
-
+        // Menambahkan event listener untuk tombol pencarian data barang
         caridatabarang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                list();
+                list(); // Memanggil method list() saat tombol diklik
             }
         });
 
-
+        // Menambahkan TextWatcher pada TextView jadwal untuk memonitor perubahan teks
         jadwal.addTextChangedListener(new TextWatcher() {
 
             @Override
@@ -122,15 +126,15 @@ public class Data_kelas extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
                 if(s.length() != 0)
-
-                    list();
-
+                    list(); // Memanggil method list() jika jadwal tidak kosong
             }
         });
 
+        // Mengatur tanggal dan jam saat ini pada tampilan
         tanggal.setText(getCurrentDate());
         jam.setText(getCurrentClock());
 
+        // Mengambil data yang diteruskan melalui Intent
         Intent i = getIntent();
         String kiriman = i.getStringExtra("nis");
         nis.setText(kiriman);
@@ -139,175 +143,140 @@ public class Data_kelas extends AppCompatActivity {
         String kiriman3 = i.getStringExtra("nama");
         nama.setText(kiriman3);
 
-
-        //prosesdasboard1();
-
-list();
-
+        // Memanggil method list() untuk menampilkan data saat pertama kali dibuka
+        list();
     }
 
 
+
+    // Method untuk mendapatkan tanggal saat ini dalam format "yyyy/MM/dd" (dengan locale Bahasa Indonesia)
     public String getCurrentDate() {
         final Calendar c = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd", new Locale("id", "ID")); // Format tanggal dalam bahasa Indonesia
-        return dateFormat.format(c.getTime());
+        return dateFormat.format(c.getTime()); // Mengembalikan tanggal yang diformat sebagai string
     }
 
-
+    // Method untuk mendapatkan waktu saat ini dalam format "hh:mm:ss"
     public String getCurrentClock(){
         Calendar c1 = Calendar.getInstance();
-        SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm:ss");
-        String strdate1 = sdf1.format(c1.getTime());
-        return strdate1;
-
-
+        SimpleDateFormat sdf1 = new SimpleDateFormat("hh:mm:ss"); // Format waktu
+        String strdate1 = sdf1.format(c1.getTime()); // Memformat waktu saat ini
+        return strdate1; // Mengembalikan waktu yang diformat sebagai string
     }
 
+    // Method untuk memuat data dan menampilkannya di ListView
     private void list(){
-
-        //swipe_refresh.setRefreshing(true);
+        // Menghapus data yang ada dan mereset adapter
         aruskas.clear();
         listdataoutlet1.setAdapter(null);
 
-        //Log.d("link", LINK );
+        // Mengirimkan request POST ke API
         AndroidNetworking.post( Config.host + "data_kelas.php" )
-                .addBodyParameter("nis", nis.getText().toString())
-                .addBodyParameter("tanggal", tanggal.getText().toString())
-                .addBodyParameter("jam", jam.getText().toString())
-                .setPriority(Priority.MEDIUM)
+                .addBodyParameter("nis", nis.getText().toString()) // Menambahkan NIS ke request
+                .addBodyParameter("tanggal", tanggal.getText().toString()) // Menambahkan tanggal ke request
+                .addBodyParameter("jam", jam.getText().toString()) // Menambahkan jam ke request
+                .setPriority(Priority.MEDIUM) // Menetapkan prioritas request
                 .build()
                 .getAsJSONObject(new JSONObjectRequestListener() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        // do anything with response
+                        // Menangani response sukses dari API
 
-
-
+                        // Menggunakan locale yang berbeda untuk pemformatan mata uang jika diperlukan
                         NumberFormat rupiahFormat = NumberFormat.getInstance(Locale.GERMANY);
-/*
-                        text_masuk.setText(
-                                rupiahFormat.format(response.optDouble("yes")));
-                        text_keluar.setText(
-                                rupiahFormat.format( response.optDouble("oke") ));
-                        text_total.setText(
-                                rupiahFormat.format( response.optDouble("saldo") ));
-**/
+
                         try {
+                            // Mengurai array JSON dari response
                             JSONArray jsonArray = response.optJSONArray("result");
                             for (int i = 0; i < jsonArray.length(); i++) {
-                                //Data_BayarEX item = new Data_BayarEX();
-                                JSONObject responses    = jsonArray.getJSONObject(i);
+                                // Mengambil objek JSON dari response
+                                JSONObject responses = jsonArray.getJSONObject(i);
                                 HashMap<String, String> map = new HashMap<String, String>();
-                                //map.put("no",         responses.optString("no"));
-                                map.put("id",         responses.optString("id"));
-                                map.put("jadwal",         responses.optString("jadwal"));
-                                map.put("jam_mulai",       responses.optString("jam_mulai"));
-                                map.put("jam_telat",       responses.optString("jam_telat"));
-                                map.put("jam_berakhir",       responses.optString("jam_berakhir"));
+                                // Memasukkan data dari objek JSON ke dalam HashMap
+                                map.put("id", responses.optString("id"));
+                                map.put("jadwal", responses.optString("jadwal"));
+                                map.put("jam_mulai", responses.optString("jam_mulai"));
+                                map.put("jam_telat", responses.optString("jam_telat"));
+                                map.put("jam_berakhir", responses.optString("jam_berakhir"));
 
-
-
-
-                                //total += Integer.parseInt(responses.getString("harga"))* Integer.parseInt(responses.getString("qty"));
-                                //map.put("tanggal",      responses.optString("tanggal"));
-
+                                // Menambahkan map ke dalam list data
                                 aruskas.add(map);
-                                //bayarList.add(item);
                             }
 
+                            // Memanggil method adapter untuk memperbarui ListView
                             Adapter();
 
                         } catch (JSONException e) {
-                            e.printStackTrace();
+                            e.printStackTrace(); // Menampilkan error jika ada kesalahan parsing JSON
                         }
-
-//                        ttl.setText("Total : Rp "+formatter.format(total));
-//                        total = 0;
                     }
+
                     @Override
                     public void onError(ANError error) {
-                        // handle error
+                        // Menangani error saat mendapatkan response dari API
                     }
                 });
     }
 
+    // Method untuk mengatur data ke dalam ListView menggunakan SimpleAdapter
     private void Adapter(){
-
         if (aruskas.isEmpty()) {
             // Jika aruskas kosong, tampilkan blank_gambar
-            // Misalnya:
             blank_gambar.setVisibility(View.VISIBLE);
-            listdataoutlet1.setVisibility(View.GONE);
+            listdataoutlet1.setVisibility(View.GONE); // Menyembunyikan ListView jika data kosong
         } else {
-            blank_gambar.setVisibility(View.GONE);
-            listdataoutlet1.setVisibility(View.VISIBLE);
+            blank_gambar.setVisibility(View.GONE); // Sembunyikan blank_gambar jika ada data
+            listdataoutlet1.setVisibility(View.VISIBLE); // Menampilkan ListView jika data ada
 
+            // Membuat SimpleAdapter untuk menampilkan data ke dalam ListView
             SimpleAdapter simpleAdapter = new SimpleAdapter(this, aruskas, R.layout.list_kelas,
                     new String[] {"id","jadwal","jam_mulai","jam_telat","jam_berakhir"},
                     new int[] {R.id.idlistt,R.id.jadwallist,R.id.jammulailist,R.id.jamtelatlist, R.id.jamberakhirlist});
 
-            listdataoutlet1.setAdapter(simpleAdapter);
+            listdataoutlet1.setAdapter(simpleAdapter); // Menetapkan adapter ke ListView
 
+            // Menangani item click pada ListView
             listdataoutlet1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    // Mengambil data dari item yang diklik
                     idlist = ((TextView) view.findViewById(R.id.idlistt)).getText().toString();
                     jadwallist = ((TextView) view.findViewById(R.id.jadwallist)).getText().toString();
                     jam_mulailist = ((TextView) view.findViewById(R.id.jammulailist)).getText().toString();
                     jam_telatlist = ((TextView) view.findViewById(R.id.jamtelatlist)).getText().toString();
                     jam_berakhirlist = ((TextView) view.findViewById(R.id.jamberakhirlist)).getText().toString();
 
-
-
-                    // Set the parsed values to the appropriate TextViews
+                    // Menetapkan nilai yang dipilih ke dalam TextView
                     idkelas.setText(idlist);
-//                    nama.setText(namagurulist);
-//                    nis.setText(String.valueOf(nislist)); // Set as plain numeric value
-                    jadwal.setText(String.valueOf(jadwallist)); // Set as plain numeric value
-                    jam_mulai.setText(String.valueOf(jam_mulailist)); // Set as plain numeric value
+                    jadwal.setText(String.valueOf(jadwallist));
+                    jam_mulai.setText(String.valueOf(jam_mulailist));
                     jam_telat.setText(jam_telatlist);
                     jam_berakhir.setText(jam_berakhirlist);
 
-
-                        //String a = idkelas.getText().toString();
-                        String b = nama.getText().toString();
-                        String c = nis.getText().toString();
-                        String d = profesi.getText().toString();
-                        String e = jadwal.getText().toString();
-
+                    // Mengambil data lain untuk dikirimkan ke Absensi Activity
+                    String b = nama.getText().toString();
+                    String c = nis.getText().toString();
+                    String d = profesi.getText().toString();
+                    String e = jadwal.getText().toString();
                     String f = jam_mulai.getText().toString();
                     String g = jam_telat.getText().toString();
                     String h = jam_berakhir.getText().toString();
 
-                Intent i = new Intent(getApplicationContext(), Absensi.class);
-                i.putExtra("nama",""+b+"");
-                i.putExtra("nis",""+c+"");
-                i.putExtra("profesi",""+d+"");
-                i.putExtra("kelas",""+e+"");
-
-                    i.putExtra("jam_mulai",""+f+"");
-                    i.putExtra("jam_telat",""+g+"");
-                    i.putExtra("jam_berakhir",""+h+"");
-                startActivity(i);
-
-
-
-//                        Intent resultIntent = new Intent();
-//                        resultIntent.putExtra("nama",""+b+"");
-//                        resultIntent.putExtra("nis",""+c+"");
-//                        resultIntent.putExtra("profesi",""+d+"");
-//                        resultIntent.putExtra("jadwal",""+e+"");
-//
-//                        //resultIntent.putExtra("selectedBarang", selectedBarang);
-//                        setResult(RESULT_OK, resultIntent);
-//                        finish();
-
-
-
+                    // Membuat intent untuk berpindah ke Absensi Activity dan mengirim data
+                    Intent i = new Intent(getApplicationContext(), Absensi.class);
+                    i.putExtra("nama", b);
+                    i.putExtra("nis", c);
+                    i.putExtra("profesi", d);
+                    i.putExtra("kelas", e);
+                    i.putExtra("jam_mulai", f);
+                    i.putExtra("jam_telat", g);
+                    i.putExtra("jam_berakhir", h);
+                    startActivity(i); // Menjalankan activity Absensi
                 }
             });
         }
     }
+
 
 
 

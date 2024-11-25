@@ -61,6 +61,7 @@ public class Data_kelas_ortu extends AppCompatActivity {
 
 
 
+//<!--Sama seperti Data_kelas tetapi ini untuk orang tua memilih kelas untu absensikan anak nya-->
 
 
     @Override

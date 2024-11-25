@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:background="#F3F3F3">
 
-
+<!--Sama seperti Data_kelas tetapi ini untuk orang tua memilih kelas untu absensikan anak nya-->
 
     <LinearLayout
         android:layout_width="match_parent"

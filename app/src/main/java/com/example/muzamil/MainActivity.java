@@ -84,24 +84,13 @@ public class MainActivity extends AppCompatActivity {
 
         context = MainActivity.this;
 
-        //call = (LinearLayout) findViewById(R.id.call);
-
         pDialog = new ProgressDialog(context);
         e1 = (EditText) findViewById(R.id.username);//kolom login
         e2 = (EditText) findViewById(R.id.password);//kolom password
         button = (LinearLayout) findViewById(R.id.Button);//button login
-        //idoutlogin1 = (TextView) findViewById(R.id.idoutlogin);//text id outlet
-        //namaoutlogin1 = (TextView) findViewById(R.id.namaoutlogin); //text namaoutlet
         update1 = (TextView) findViewById(R.id.update); //text untuk update aplkasi
         namasales1 = (TextView) findViewById(R.id.namasales); //id untuk update
-///
-//        Intent kolomlogin = getIntent();
-//        String kiriman = kolomlogin.getStringExtra("namasales");
-//        e1.setText(kiriman);
-//        String kiriman2 = kolomlogin.getStringExtra("idoutlet");
-//        idoutlogin1.setText(kiriman2);
-//        String kiriman3 = kolomlogin.getStringExtra("namaoutlet");
-//        namaoutlogin1.setText(kiriman3);
+
 
 
         // Periksa apakah ada nilai username dan password tersimpan dalam SharedPreferences
@@ -124,50 +113,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-//        call.setOnClickListener(new View.OnClickListener() {
-//
-//            public void onClick(View arg0) {
-//
-////                String nama_user_alert = nama_user.getText().toString();
-////                String posisi_alert = posisi.getText().toString();
-////                String perusahaan_alert = perusahaan.getText().toString();
-//
-//                String noHp = "6282249495858";
-//                String pesan = "Hallo Admin Lussi, bisa bantu saya?";
-//
-//
-//                String pakePesandanNomor =
-//                        "https://api.whatsapp.com/send?phone=" + noHp + "&text=" + pesan;
-//                Intent i = new Intent(Intent.ACTION_VIEW,
-//                        Uri.parse(pakePesandanNomor));
-//                startActivity(i);
-//
-//            }
-//
-//        });
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 loginn();
 
-                //e1 = (EditText) findViewById(R.id.editText2);//kolom login
+
 
             }
         });
 
-        //updateaplikasi();
 
     }
 
     private void loginn() {
-        //Getting values from edit texts
+        //Dapatkan nilai dari edittext
         final String username = e1.getText().toString().trim();
         final String password = e2.getText().toString().trim();
         pDialog.setMessage("Login Process...");
         showDialog();
 
-        //Creating a string request
+        //   Buat String Request
         StringRequest stringRequest = new StringRequest(Request.Method.POST, AppVar.LOGIN_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -202,7 +168,6 @@ public class MainActivity extends AppCompatActivity {
                 //Adding parameters to request
                 params.put(AppVar.KEY_EMAIL, username);
                 params.put(AppVar.KEY_PASSWORD, password);
-
                 //returning parameter
                 return params;
             }
@@ -213,9 +178,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    //parsing
     private void gotoCourseActivity() {
         String a = e1.getText().toString();
-
         Intent intent = new Intent(context, MenuAbsen.class);
         intent.putExtra("nis",""+a+"");
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
@@ -223,7 +188,7 @@ public class MainActivity extends AppCompatActivity {
         finish();
     }
 
-
+//method Credentials
     private void saveCredentials(String username, String password) {
         SharedPreferences sharedPreferences = getSharedPreferences("userData", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -242,141 +207,6 @@ public class MainActivity extends AppCompatActivity {
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
-    }
-
-
-
-
-
-    public void updateaplikasi(){
-//        pDialog.setMessage("TUNGGU SEBENTAR, SEDANG VERIFIKASI DATA");
-//        showDialog();
-        KasAdapter2();
-        new CountDownTimer(2000, 1000) {
-
-            public void onTick(long millisUntilFinished) {
-                pDialog.setMessage("TUNGGU SEBENTAR, SEDANG VERIFIKASI DATA :"+ millisUntilFinished / 1000);
-                showDialog();
-                pDialog.setCanceledOnTouchOutside(false);
-                //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
-            }
-
-            public void onFinish() {
-                hideDialog();
-
-                if (update1.getText().toString().equals("22")) {
-//            buttonabsendatang1.setEnabled(false);
-//            buttonabsendatang1.setBackgroundColor(getResources().getColor(R.color.abu));
-                    Toast.makeText(getApplicationContext(), "INVEN siap di gunakan",
-                            Toast.LENGTH_LONG).show();
-
-                    //1
-                    //jika form Email belum di isi / masih kosong
-                    //link1.setError("harus diisi");
-                    // Toast.makeText(getApplicationContext(), "Kolom Tidak boleh kosong", Toast.LENGTH_LONG).show();
-
-                }else if (update1.getText().toString().equals("null")) {
-//            buttonabsendatang1.setEnabled(false);
-//            buttonabsendatang1.setBackgroundColor(getResources().getColor(R.color.abu));
-                    pDialog.setMessage("Koneksi mu Bermasalah, Silahkan Keluar Jarvis Terlebih Dahulu lalu Cek Koneksi mu");
-                    showDialog();
-
-                    //1
-                    //jika form Email belum di isi / masih kosong
-                    //link1.setError("harus diisi");
-                    // Toast.makeText(getApplicationContext(), "Kolom Tidak boleh kosong", Toast.LENGTH_LONG).show();
-                }else {
-
-                    validasiaplikasi();
-
-                }
-
-                //mTextField.setText("done!");
-            }
-        }.start();
-
-        //
-
-
-
-
-
-
-    }
-
-
-
-
-    private void KasAdapter2() {
-//        pDialog.setMessage("TUNGGU SEBENTAR, SEDANG VERIFIKASI DATA");
-//        showDialog();
-        AndroidNetworking.post(Config.host + "updateaplikasi.php")
-                .addBodyParameter("id", namasales1.getText().toString())
-                //.addBodyParameter("tanggal", tanggal1.getText().toString())
-                //.addBodyParameter("bulan1", bulan1.getText().toString())
-                //.addBodyParameter("bulan2", bulan2.getText().toString())
-                .setPriority(Priority.MEDIUM)
-                .build()
-                .getAsJSONObject(new JSONObjectRequestListener() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // do anything with response
-
-
-
-                        NumberFormat rupiahFormat = NumberFormat.getInstance(Locale.GERMANY);
-                        //username1.setText((response.optString("username")));
-                        update1.setText((response.optString("update")));
-                        //nama221.setText((response.optString("nama")));
-                        hideDialog();
-                    }
-
-                    @Override
-                    public void onError(ANError error) {
-
-                    }
-                });
-
-
-
-
-
-    }
-
-
-    public void validasiaplikasi() {
-        final Dialog dialog = new Dialog(this);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);
-        dialog.setTitle("Hallo Team Reka Mitra");
-        AlertDialog alertDialog;
-        alertDialog = new AlertDialog.Builder(this)
-
-                .setTitle(R.string.app_name)
-                .setMessage("Jarvis mu versi lama, silahkan update terlebih dahulu ya...")
-                .setPositiveButton("Update sekarang", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                        Intent i = new Intent();
-                        i.setAction(Intent.ACTION_VIEW);
-                        //i.addCategory(Intent.CATEGORY_APP_BROWSER);
-                        i.setData(Uri.parse("http://rekamitrayasa.com/download"));
-                        startActivity(i);
-
-                    }
-                })
-                .setNegativeButton("Keluar Aplikasi", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        finish();
-                    }
-                })
-                .show();
-        alertDialog.setCanceledOnTouchOutside(false);
-        alertDialog.setCancelable(false);
-
-
     }
 
 

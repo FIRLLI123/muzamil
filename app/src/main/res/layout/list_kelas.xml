@@ -4,7 +4,10 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-
+    <!--Tampilan ini untuk di jadikan sebagai data view yang di ambil oleh
+    SimpleAdapter simpleAdapter = new SimpleAdapter(this, aruskas, R.layout.list_kelas,
+                    new String[] {"id","jadwal","jam_mulai","jam_telat","jam_berakhir"},
+                    new int[] {R.id.idlistt,R.id.jadwallist,R.id.jammulailist,R.id.jamtelatlist, R.id.jamberakhirlist});-->
 
 
 
@@ -34,7 +37,7 @@
                 android:id="@+id/jadwallist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Voucher 2.5gb"
+                android:text="Jadwal"
                 android:textColor="@color/black"
                 android:layout_marginLeft="1dp"
                 android:gravity="left"

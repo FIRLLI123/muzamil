@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
 
-
+<!--Sama seperti Absensi, hanya ini memanggil data siswa untuk ortu absensikan-->
 
 
     <LinearLayout

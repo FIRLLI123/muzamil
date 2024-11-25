@@ -78,31 +78,29 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
 
 
     ListView listtest1;
-    public static String LINK, idlist, tanggallist, jamlist, kecamatanlist, absenlist, keteranganlist, statuslist, pendinglist;
     ArrayList<HashMap<String, String>> aruskas = new ArrayList<HashMap<String, String>>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.absensi);
+        setContentView(R.layout.absensi); // Mengatur layout absensi sebagai tampilan aktivitas
 
         this.mHandler = new Handler();
-        m_Runnable.run();
+        m_Runnable.run(); // Memulai runnable untuk tugas yang mungkin dijalankan secara berkala
 
-
+        // Inisialisasi komponen layout
         draggableButton = findViewById(R.id.draggableButton);
         mainLayout = findViewById(R.id.mainLayout);
         teks_absen = (TextView) findViewById(R.id.teks_absen);
-        screenWidth = getResources().getDisplayMetrics().widthPixels;
+        screenWidth = getResources().getDisplayMetrics().widthPixels; // Mendapatkan lebar layar perangkat
 
+        context = Absensi.this; // Menyimpan context aktivitas untuk penggunaan lainnya
+        pDialog = new ProgressDialog(context); // Membuat dialog progres untuk menampilkan loading
 
-        context = Absensi.this;
-        pDialog = new ProgressDialog(context);
-
+        // Inisialisasi elemen ListView
         listtest1 = (ListView) findViewById(R.id.listtest);
 
-        draggableButton = findViewById(R.id.draggableButton);
-
+        // Inisialisasi TextView dari layout
         nis = (TextView) findViewById(R.id.nis);
         nama = (TextView) findViewById(R.id.nama);
         profesi = (TextView) findViewById(R.id.profesi);
@@ -114,52 +112,40 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
         keterangan = (TextView) findViewById(R.id.keterangan);
         jam_bayangan = (TextView) findViewById(R.id.jam_bayangan);
 
-
+        // Inisialisasi elemen jam kerja
         jam_masuk = (TextView) findViewById(R.id.jam_masuk);
         jam_telat = (TextView) findViewById(R.id.jam_telat);
         jam_berakhir = (TextView) findViewById(R.id.jam_berakhir);
 
-
+        // Inisialisasi tombol scan dan menambahkan listener klik
         buttonScan = (LinearLayout) findViewById(R.id.buttonScan);
-
         buttonScan.setOnClickListener(this);
 
+        // Mengatur tanggal dan jam saat ini ke TextView
         tanggal.setText(getCurrentDate());
         jam.setText(getCurrentClock());
         jam_bayangan.setText(getCurrentClock());
 
+        // Mengambil data dari intent dan mengisinya ke TextView
         Intent i = getIntent();
         String kiriman = i.getStringExtra("nis");
-        nis.setText(kiriman);
+        nis.setText(kiriman); // Menampilkan NIS
         String kiriman2 = i.getStringExtra("profesi");
-        profesi.setText(kiriman2);
+        profesi.setText(kiriman2); // Menampilkan profesi
         String kiriman3 = i.getStringExtra("nama");
-        nama.setText(kiriman3);
+        nama.setText(kiriman3); // Menampilkan nama
         String kiriman4 = i.getStringExtra("kelas");
-        kelas.setText(kiriman4);
+        kelas.setText(kiriman4); // Menampilkan kelas
 
+        // Mengatur waktu kerja ke TextView
         String kiriman5 = i.getStringExtra("jam_mulai");
-        jam_masuk.setText(kiriman5);
+        jam_masuk.setText(kiriman5); // Menampilkan jam mulai
         String kiriman6= i.getStringExtra("jam_telat");
-        jam_telat.setText(kiriman6);
+        jam_telat.setText(kiriman6); // Menampilkan jam telat
         String kiriman7 = i.getStringExtra("jam_berakhir");
-        jam_berakhir.setText(kiriman7);
+        jam_berakhir.setText(kiriman7); // Menampilkan jam berakhir
 
-
-//        buttonScan.setOnClickListener(new View.OnClickListener() {
-//
-//            public void onClick(View arg0) {
-//
-//               keterangan();
-//
-//
-//
-//            }
-//
-//        });
-
-
-
+        // Menambahkan fungsi drag ke tombol draggableButton
         draggableButton.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent event) {
@@ -168,51 +154,41 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
                         dX = view.getX() - event.getRawX();
                         dY = view.getY() - event.getRawY();
                         originalX = view.getX();
-                        originalY = view.getY();
+                        originalY = view.getY(); // Menyimpan posisi awal tombol
                         break;
 
                     case MotionEvent.ACTION_MOVE:
                         float newX = event.getRawX() + dX;
                         float newY = event.getRawY() + dY;
 
-                        // Batasan agar tombol tetap di dalam layout
+                        // Membatasi pergerakan tombol agar tetap dalam layar
                         if (newX < 0) newX = 0;
                         if (newX + view.getWidth() > screenWidth)
                             newX = screenWidth - view.getWidth();
-//                        if (newY < 0) newY = 0;
-//
-                        view.setX(newX);
-//                        view.setY(newY);
+
+                        view.setX(newX); // Memindahkan tombol secara horizontal
                         break;
 
                     case MotionEvent.ACTION_UP:
                         if (view.getX() + view.getWidth() >= screenWidth / 2
-                                && view.getY() <= 0) {
-                            // Tombol mencapai ujung kiri atas
-                            // Lakukan aksi pindah ke aktivitas lain di sini
-                            if ( nama_siswa.getText().toString().equals("Data Siswa")){
-                                //1
+                                && view.getY() <= 0) { // Mengecek posisi tombol di bagian tertentu
+                            if (nama_siswa.getText().toString().equals("Data Siswa")) {
+                                // Menampilkan pesan jika data siswa belum dipilih
                                 Toast.makeText(getApplicationContext(), "Silahkan pilih data siswa",
                                         Toast.LENGTH_LONG).show();
-                                // Animasi mengembalikan tombol ke posisi awal
+
+                                // Mengembalikan tombol ke posisi semula
                                 ObjectAnimator.ofFloat(draggableButton, "x", originalX)
                                         .setDuration(300)
                                         .start();
                                 ObjectAnimator.ofFloat(draggableButton, "y", originalY)
                                         .setDuration(300)
                                         .start();
-
-                                //Toast.makeText(getApplicationContext(), "Silahkan pilih terlebih dahulu", Toast.LENGTH_LONG).show();
-                            }  else {
-
-
-                                absengak();
-
-
-
+                            } else {
+                                absengak(); // Memanggil fungsi absengak jika valid
                             }
                         } else {
-                            // Animasi mengembalikan tombol ke posisi awal
+                            // Mengembalikan tombol ke posisi awal jika tidak memenuhi syarat
                             ObjectAnimator.ofFloat(view, "x", originalX)
                                     .setDuration(300)
                                     .start();
@@ -223,15 +199,15 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
                         break;
 
                     default:
-                        return false;
+                        return false; // Tidak menangani aksi lainnya
                 }
-                return true;
+                return true; // Mengindikasikan event telah ditangani
             }
         });
 
-        list();
-
+        list(); // Memanggil fungsi list untuk mungkin mengisi data ListView
     }
+
 
     private final Runnable m_Runnable = new Runnable() {
         public void run() {
@@ -308,140 +284,118 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
 
 
     public void absengak() {
-
+        // Mengambil data dari TextView
         String gurualert = nama.getText().toString();
         String id_siswaalert = id_siswa.getText().toString();
         String nama_siswaalert = nama_siswa.getText().toString();
         String kelasalert = kelas.getText().toString();
         String jamalert = jam.getText().toString();
 
-
-
-        //String a = validasib1.getText().toString();
+        // Membuat dialog untuk konfirmasi absensi
         final Dialog dialog = new Dialog(this);
-        dialog.setCanceledOnTouchOutside(false);
-        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false); // Dialog tidak dapat ditutup dengan menyentuh luar
+        dialog.setCancelable(false); // Dialog tidak dapat ditutup dengan tombol back
         dialog.setTitle("ABSENSI");
+
         AlertDialog alertDialog;
         alertDialog = new AlertDialog.Builder(this)
-
-                .setIcon(R.drawable.titik)
-                .setTitle(R.string.app_name)
-                .setMessage("Hallo "+gurualert+", anda akan melakukan absen untuk "+nama_siswaalert+" ?\ndengan NIS : "+id_siswaalert+"\nPada Pukul : "+jamalert+"\nDi kelas : "+kelasalert)
+                .setIcon(R.drawable.titik) // Menampilkan ikon
+                .setTitle(R.string.app_name) // Menampilkan judul dialog
+                .setMessage("Hallo " + gurualert + ", anda akan melakukan absen untuk "
+                        + nama_siswaalert + " ?\nDengan NIS : " + id_siswaalert
+                        + "\nPada Pukul : " + jamalert
+                        + "\nDi kelas : " + kelasalert) // Pesan konfirmasi
                 .setPositiveButton("OKE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        prosesdasboard1(); // Memanggil proses absensi
 
-                        prosesdasboard1();
-
-
-                        // Animasi mengembalikan tombol ke posisi awal
+                        // Mengembalikan tombol ke posisi awal
                         ObjectAnimator.ofFloat(draggableButton, "x", originalX)
                                 .setDuration(300)
                                 .start();
                         ObjectAnimator.ofFloat(draggableButton, "y", originalY)
                                 .setDuration(300)
                                 .start();
-
-
-
                     }
                 })
                 .setNegativeButton("Batal", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-                        // Animasi mengembalikan tombol ke posisi awal
+                        // Mengembalikan tombol ke posisi awal jika dibatalkan
                         ObjectAnimator.ofFloat(draggableButton, "x", originalX)
                                 .setDuration(300)
                                 .start();
                         ObjectAnimator.ofFloat(draggableButton, "y", originalY)
                                 .setDuration(300)
                                 .start();
-
-                        dialog.cancel();
+                        dialog.cancel(); // Menutup dialog
                     }
                 })
                 .show();
-        alertDialog.setCanceledOnTouchOutside(false);
+
+        alertDialog.setCanceledOnTouchOutside(false); // Tidak dapat ditutup dengan menyentuh luar
     }
 
+    public void prosesdasboard1() {
+        save(); // Menyimpan data
+        list(); // Memperbarui data list
 
-    public void prosesdasboard1(){
-        save();
-        list();
+        // Menampilkan dialog loading selama 1 detik
         new CountDownTimer(1000, 1000) {
-
             public void onTick(long millisUntilFinished) {
-                pDialog.setMessage("Loading..."+ millisUntilFinished / 1000);
-                showDialog();
-                pDialog.setCanceledOnTouchOutside(false);
-
-//                in();
-//                out();
-                //checkTimeAndUpdateView();
-                //mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+                pDialog.setMessage("Loading..." + millisUntilFinished / 1000); // Pesan loading
+                showDialog(); // Menampilkan dialog
+                pDialog.setCanceledOnTouchOutside(false); // Tidak dapat ditutup dengan menyentuh luar
             }
 
             public void onFinish() {
-                hideDialog();
-
-
+                hideDialog(); // Menyembunyikan dialog setelah selesai
             }
         }.start();
-
     }
 
-
     public String getCurrentDate() {
+        // Mendapatkan tanggal saat ini dalam format yyyy/MM/dd
         final Calendar c = Calendar.getInstance();
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd", new Locale("id", "ID")); // Format tanggal dalam bahasa Indonesia
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd", new Locale("id", "ID"));
         return dateFormat.format(c.getTime());
     }
 
-
-    public String getCurrentClock(){
+    public String getCurrentClock() {
+        // Mendapatkan waktu saat ini dalam format HH:mm
         Calendar c1 = Calendar.getInstance();
         SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm");
         String strdate1 = sdf1.format(c1.getTime());
         return strdate1;
-
     }
-
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Menangani hasil scan QR Code
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null){
-            if (result.getContents() == null){
+        if (result != null) {
+            if (result.getContents() == null) {
+                // Jika tidak ada data yang ditemukan
                 Toast.makeText(this, "Hasil tidak ditemukan", Toast.LENGTH_SHORT).show();
-            }else{
-                // jika qrcode berisi data
-                try{
-                    // converting the data json
+            } else {
+                try {
+                    // Mengonversi hasil scan ke JSONObject
                     JSONObject object = new JSONObject(result.getContents());
-                    // atur nilai ke textviews
+                    // Menampilkan data pada TextView
                     id_siswa.setText(object.getString("id_siswa"));
                     nama_siswa.setText(object.getString("nama_siswa"));
-
-//                    imgdatakunjungan.setVisibility(View.GONE);
-//                    datakunjungan.setVisibility(View.VISIBLE);
-                    //kunjunganterakhir();
-
-                }catch (JSONException e){
+                } catch (JSONException e) {
                     e.printStackTrace();
-                    // jika format encoded tidak sesuai maka hasil
-                    // ditampilkan ke toast
+                    // Menampilkan hasil scan sebagai teks jika format tidak sesuai
                     Toast.makeText(this, result.getContents(), Toast.LENGTH_SHORT).show();
                 }
-
-
             }
-        }else{
-            super.onActivityResult(requestCode, resultCode, data);
+        } else {
+            super.onActivityResult(requestCode, resultCode, data); // Memanggil fungsi bawaan jika tidak ada hasil
         }
     }
+
 
     @Override
     public void onClick(View v) {
@@ -451,10 +405,8 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
     }
 
 
-
+//method absensi untuk di simpan ke database
     private void save() {
-        //pDialog.setMessage("Login Process...");
-        //showDialog();
         AndroidNetworking.post(Config.host + "inputabsen.php")
                 .addBodyParameter("nis",  nis.getText().toString())
                 .addBodyParameter("nama", nama.getText().toString())
@@ -486,18 +438,11 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
 
 
 
-
-//                            ok1.setVisibility(View.VISIBLE);
-//                            tabsendatang1.setTextColor(getResources().getColor(R.color.hijau));
-//                            tabsendatang1.setText("TELAH ABSEN");
-
                         } else {
                             //hideDialog();
                             Toast.makeText(getApplicationContext(), "HARI INI KAMU SUDAH ABSEN",
                                     Toast.LENGTH_LONG).show();
-//                            ga1.setVisibility(View.VISIBLE);
-//                            tabsendatang1.setTextColor(getResources().getColor(R.color.merah));
-//                            tabsendatang1.setText("GAGAL ABSEN");
+
                         }
                     }
 
@@ -508,12 +453,12 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
                 });
     }
 
-
+//show dialog
     private void showDialog() {
         if (!pDialog.isShowing())
             pDialog.show();
     }
-
+//hide dialog
     private void hideDialog() {
         if (pDialog.isShowing())
             pDialog.dismiss();
@@ -521,7 +466,7 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
 
 
 
-
+//listview untuk tampil data berdasarkan tanggal dan kelas
     private void list() {
         // Bersihkan data sebelum mengisi kembali
         aruskas.clear();
@@ -537,18 +482,6 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
                     public void onResponse(JSONObject response) {
                         try {
                             JSONArray jsonArray = response.optJSONArray("result");
-
-//                            String nama = namasales.getText().toString();
-//                            if (!hasTodayAbsen(jsonArray) && isAfter4_30PM()) {
-//                                showNotification("Hallo " +nama, "Anda belum melakukan absen hari ini di Jarvis. Silakan lakukan absen.");
-//                            }
-
-                            // Mengirim data absen ke layanan
-//                            if (jsonArray != null) {
-//                                Intent intent = new Intent(Absen_fix.this, AbsenNotificationService.class);
-//                                intent.putExtra("absenData", jsonArray.toString());
-//                                startService(intent);
-//                            }
 
                             // Proses data absen jika ada
                             if (jsonArray != null) {

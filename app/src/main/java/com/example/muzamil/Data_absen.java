@@ -77,62 +77,53 @@ public class Data_absen extends AppCompatActivity {
 
         caritanggal = (Button) findViewById(R.id.caritanggal);
 
-
+        // Mendapatkan data yang diteruskan melalui Intent
         Intent i = getIntent();
         String kiriman = i.getStringExtra("id_siswa");
         id_siswa.setText(kiriman);
         String kiriman2 = i.getStringExtra("nama_siswa");
         nama_siswa.setText(kiriman2);
 
+        // Menampilkan tanggal saat ini pada TextView
         tanggal.setText(getCurrentDate());
 
+        // Menangani klik pada button caritanggal
         caritanggal.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View arg0) {
-
+                // Memanggil method list untuk menampilkan data
                 list();
-
             }
 
         });
 
-
-
+        // Menangani klik pada TextView tanggal untuk memilih tanggal
         tanggal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showDateDialog1();
+                showDateDialog1(); // Menampilkan DatePickerDialog
             }
         });
 
+        // Memanggil method list untuk menampilkan data saat pertama kali dibuka
         list();
-
-
-
     }
 
-
     private void showDateDialog1(){
-
         /**
          * Calendar untuk mendapatkan tanggal sekarang
          */
         Calendar newCalendar = Calendar.getInstance();
 
         /**
-         * Initiate DatePicker dialog
+         * Inisialisasi DatePicker dialog
          */
         datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
 
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
                 /**
                  * Method ini dipanggil saat kita selesai memilih tanggal di DatePicker
-                 */
-
-                /**
-                 * Set Calendar untuk menampung tanggal yang dipilih
                  */
                 Calendar newDate = Calendar.getInstance();
                 newDate.set(year, monthOfYear, dayOfMonth);
@@ -151,6 +142,7 @@ public class Data_absen extends AppCompatActivity {
         datePickerDialog.show();
     }
 
+    // Mengambil tanggal saat ini dan mengembalikannya dalam format yang diinginkan
     public String getCurrentDate() {
         final Calendar c = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd", new Locale("id", "ID")); // Format tanggal dalam bahasa Indonesia
@@ -162,6 +154,7 @@ public class Data_absen extends AppCompatActivity {
         aruskas.clear();
         listtest1.setAdapter(null);
 
+        // Mengirimkan request POST ke server untuk mendapatkan data absensi berdasarkan tanggal dan id_siswa
         AndroidNetworking.post(Config.host + "list_absen_ortu.php")
                 .addBodyParameter("tanggal", tanggal.getText().toString())
                 .addBodyParameter("id_siswa", id_siswa.getText().toString())
@@ -177,7 +170,7 @@ public class Data_absen extends AppCompatActivity {
                             if (jsonArray != null) {
                                 for (int i = 0; i < jsonArray.length(); i++) {
                                     JSONObject responses = jsonArray.getJSONObject(i);
-                                    //Data_BayarEX item = new Data_BayarEX();
+                                    // Membuat HashMap untuk menyimpan data absen
                                     HashMap<String, String> map = new HashMap<String, String>();
                                     map.put("id", responses.optString("id"));
                                     map.put("nis", responses.optString("nis"));
@@ -193,6 +186,7 @@ public class Data_absen extends AppCompatActivity {
                                 }
                             }
 
+                            // Menghubungkan data dengan adapter setelah proses data selesai
                             Adapter();
 
                         } catch (JSONException e) {
@@ -200,18 +194,15 @@ public class Data_absen extends AppCompatActivity {
                         }
                     }
 
-
                     @Override
                     public void onError(ANError error) {
-                        // Handle error
+                        // Menangani kesalahan jika terjadi masalah saat request
                     }
                 });
     }
 
-
-
     private void Adapter(){
-
+        // Membuat CustomAdapter dan menghubungkannya dengan ListView
         Data_absen.CustomAdapter customAdapter = new Data_absen.CustomAdapter(this, aruskas, R.layout.list_absen_fix,
                 new String[]{"id","nis", "nama", "profesi", "jam", "tanggal", "kelas", "id_siswa", "nama_siswa", "keterangan"},
                 new int[]{R.id.id_list, R.id.nis_list, R.id.nama_list, R.id.profesi_list, R.id.jam_list, R.id.tanggal_list, R.id.kelas_list, R.id.id_siswa_list, R.id.nama_siswa_list, R.id.keterangan_list});
@@ -221,13 +212,9 @@ public class Data_absen extends AppCompatActivity {
         listtest1.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-
+                // Menangani klik pada item listview (bisa ditambahkan fungsionalitas lebih lanjut)
             }
         });
-
-
-        // Rest of your code...
     }
 
     private class CustomAdapter extends SimpleAdapter {
@@ -240,35 +227,16 @@ public class Data_absen extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             View view = super.getView(position, convertView, parent);
 
-            // Get the values from the data
+            // Mendapatkan data untuk absen dan jam dari aruskas
             String absenListAbsen = aruskas.get(position).get("absen");
             String jamListAbsen = aruskas.get(position).get("jam");
 
-            // Check conditions and set text color accordingly
-//            TextView absenListAbsenTextView = view.findViewById(R.id.absenlistabsen);
-//            TextView jamListAbsenTextView = view.findViewById(R.id.jamlistabsen);
-//            if (absenListAbsen.equals("DATANG")) {
-//                SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-//                try {
-//                    Date jamAbsen = sdf.parse(jamListAbsen);
-//                    Date thresholdTime = sdf.parse("08:00:00");
-//
-//                    if (jamAbsen.after(thresholdTime)) {
-//                        jamListAbsenTextView.setTextColor(Color.RED);
-//                    } else {
-//                        jamListAbsenTextView.setTextColor(Color.BLACK);
-//                    }
-//                } catch (ParseException e) {
-//                    e.printStackTrace();
-//                }
-//            } else {
-//                // Set default text color for other values of absenListAbsen
-//                jamListAbsenTextView.setTextColor(Color.BLACK);
-//            }
+            // Bisa ditambahkan logika tambahan untuk memodifikasi tampilan berdasarkan data
 
             return view;
         }
     }
-
-
 }
+
+
+

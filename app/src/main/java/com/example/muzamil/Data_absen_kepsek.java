@@ -62,6 +62,12 @@ public class Data_absen_kepsek extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
     private SimpleDateFormat dateFormatter;
 
+
+    //Sama Seperti Data_absen cuma beda mengambil data Kepsek
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

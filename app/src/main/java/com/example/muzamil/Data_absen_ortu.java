@@ -78,8 +78,12 @@ public class Data_absen_ortu extends AppCompatActivity implements View.OnClickLi
 
 
     ListView listtest1;
-    public static String LINK, idlist, tanggallist, jamlist, kecamatanlist, absenlist, keteranganlist, statuslist, pendinglist;
     ArrayList<HashMap<String, String>> aruskas = new ArrayList<HashMap<String, String>>();
+
+
+//    <!--Sama seperti Absensi, hanya ini memanggil data siswa untuk ortu absensikan-->
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,25 +146,7 @@ public class Data_absen_ortu extends AppCompatActivity implements View.OnClickLi
         String kiriman9 = i.getStringExtra("nama_siswa");
         nama_siswa.setText(kiriman9);
 
-//        String kiriman5 = i.getStringExtra("jam_mulai");
-//        jam_masuk.setText(kiriman5);
-//        String kiriman6= i.getStringExtra("jam_telat");
-//        jam_telat.setText(kiriman6);
-//        String kiriman7 = i.getStringExtra("jam_berakhir");
-//        jam_berakhir.setText(kiriman7);
 
-
-//        buttonScan.setOnClickListener(new View.OnClickListener() {
-//
-//            public void onClick(View arg0) {
-//
-//               keterangan();
-//
-//
-//
-//            }
-//
-//        });
 
 
 
