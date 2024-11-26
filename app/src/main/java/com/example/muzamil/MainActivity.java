@@ -1,42 +1,23 @@
 package com.example.muzamil;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.net.Uri;
-import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Paint;
-import android.graphics.Typeface;
-import android.support.v4.widget.TextViewCompat;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.text.Html;
+
+import androidx.core.widget.TextViewCompat;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.view.View;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.AppCompatButton;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
+
+import androidx.appcompat.widget.AppCompatButton;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -44,17 +25,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.JSONObjectRequestListener;
-import com.example.muzamil.helper.Config;
 
-import org.json.JSONObject;
-
-import java.text.NumberFormat;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     TextView idoutlogin1;
@@ -159,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                         //You can handle error here if you want
                         hideDialog();
                         Toast.makeText(context, "The server unreachable", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Pesan", Toast.LENGTH_LONG).show();
 
                     }
                 }) {
@@ -200,13 +173,24 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void showDialog() {
-        if (!pDialog.isShowing())
+        if (!isFinishing() && !pDialog.isShowing()) {
             pDialog.show();
+        }
     }
 
     private void hideDialog() {
-        if (pDialog.isShowing())
+        if (!isFinishing() && pDialog.isShowing()) {
             pDialog.dismiss();
+        }
+    }
+
+
+    @Override
+    protected void onDestroy() {
+        if (pDialog != null && pDialog.isShowing()) {
+            pDialog.dismiss();
+        }
+        super.onDestroy();
     }
 
 
