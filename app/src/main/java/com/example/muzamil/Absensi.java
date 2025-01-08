@@ -284,7 +284,6 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
         String nama_siswaalert = nama_siswa.getText().toString();
         String kelasalert = kelas.getText().toString();
         String jamalert = jam.getText().toString();
-
         // Membuat dialog untuk konfirmasi absensi
         final Dialog dialog = new Dialog(this);
         dialog.setCanceledOnTouchOutside(false); // Dialog tidak dapat ditutup dengan menyentuh luar
@@ -379,6 +378,9 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
                     // Menampilkan data pada TextView
                     id_siswa.setText(object.getString("id_siswa"));
                     nama_siswa.setText(object.getString("nama_siswa"));
+
+                    // Memanggil method absen() setelah data berhasil ditampilkan
+                    absengak();
                 } catch (JSONException e) {
                     e.printStackTrace();
                     // Menampilkan hasil scan sebagai teks jika format tidak sesuai
@@ -389,6 +391,7 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
             super.onActivityResult(requestCode, resultCode, data); // Memanggil fungsi bawaan jika tidak ada hasil
         }
     }
+
 
 
     @Override
@@ -514,9 +517,6 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
 
 
 
-
-
-
     private void Adapter(){
 
         CustomAdapter customAdapter = new CustomAdapter(this, aruskas, R.layout.list_absen_fix,
@@ -550,7 +550,6 @@ TextView jam_masuk, jam_telat, jam_berakhir, jam_bayangan;
 
 
             return view;
-
 
 
         }

@@ -309,7 +309,7 @@ public class Data_absen_ortu extends AppCompatActivity implements View.OnClickLi
 
                 .setIcon(R.drawable.titik)
                 .setTitle(R.string.app_name)
-                .setMessage("Hallo "+gurualert+", anda akan melakukan absen untuk "+nama_siswaalert+" ?\ndengan NIS : "+id_siswaalert+"\nPada Pukul : "+jamalert+"\nDi kelas : "+kelasalert)
+                .setMessage("Hallo "+gurualert+", anda akan melakukan izin untuk "+nama_siswaalert+" ?\ndengan NIS : "+id_siswaalert+"\nPada Pukul : "+jamalert+"\nDi kelas : "+kelasalert)
                 .setPositiveButton("OKE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

@@ -160,7 +160,7 @@ LinearLayout kehadiran, izin, data_absen, logout;
         izin.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
                 // Cek apakah profesi adalah ortu
-                if (profesi.getText().toString().equals("ortu")) {
+                if (profesi.getText().toString().equals("ORTU")) {
                     String a = nis.getText().toString();
                     String b = nama.getText().toString();
                     String c = profesi.getText().toString();
@@ -206,7 +206,7 @@ LinearLayout kehadiran, izin, data_absen, logout;
                 String profesiValue = profesi.getText().toString();
                 Log.d("Profesi Value", profesiValue); // Log untuk mengecek nilai profesi
 
-                if (profesiValue.equals("ortu")) {
+                if (profesiValue.equals("ORTU")) {
                     String a = id_siswa.getText().toString();
                     String b = nama_siswa.getText().toString();
 
@@ -218,8 +218,8 @@ LinearLayout kehadiran, izin, data_absen, logout;
                     startActivity(i);
                     overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
 
-                } else if (profesiValue.equals("KEPSEK")) {
-                    Log.d("Profesi Check", "KEPSEK detected"); // Log untuk memastikan blok ini dijalankan
+                } else if (profesiValue.equals("BK")) {
+                    Log.d("Profesi Check", "BK detected"); // Log untuk memastikan blok ini dijalankan
 
                     String a = nis.getText().toString();
                     String b = nama.getText().toString();
@@ -245,7 +245,7 @@ LinearLayout kehadiran, izin, data_absen, logout;
 
         selengkapnya.setOnClickListener(new View.OnClickListener() {
             public void onClick(View arg0) {
-                if (profesi.getText().toString().equals("ortu")) {
+                if (profesi.getText().toString().equals("ORTU")) {
                     String a = id_siswa.getText().toString();
                     String b = nama_siswa.getText().toString();
 
@@ -613,7 +613,7 @@ LinearLayout kehadiran, izin, data_absen, logout;
                                     String keterangan = responses.optString("keterangan");
                                     String namaSiswa = responses.optString("nama_siswa");
 
-                                    if ("ortu".equalsIgnoreCase(profesi) && "telat".equalsIgnoreCase(keterangan)) {
+                                    if ("ORTU".equalsIgnoreCase(profesi) && "telat".equalsIgnoreCase(keterangan)) {
                                         showNotification("Perhatian", namaSiswa + " terlambat hari ini.");
                                     }
                                 }

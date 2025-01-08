@@ -26,6 +26,13 @@
         android:theme="@style/Theme.Muzamil"
         tools:ignore="MissingClass">
         <activity
+            android:name=".Tes"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Data_absen_kepsek"
             android:exported="false"
             android:hardwareAccelerated="false"
